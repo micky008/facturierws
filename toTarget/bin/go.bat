@@ -1,0 +1,1 @@
+java -classpath "../lib/*" com.taiddicom.portail.main.Main ../conf/config.properties
