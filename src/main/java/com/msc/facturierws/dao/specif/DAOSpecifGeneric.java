@@ -5,7 +5,6 @@
  */
 package com.msc.facturierws.dao.specif;
 
-import com.msc.dao.daoproject.annotation.StaticField;
 import com.msc.dao.daoproject.generic.GenericDaoImpl;
 import com.msc.facturierws.entity.MoyenDePaiement;
 import com.msc.rest.tokenrestjersey.Token;
@@ -17,12 +16,10 @@ import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.core.SecurityContext;
-import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
 
 /**
@@ -55,7 +52,6 @@ public abstract class DAOSpecifGeneric<T> extends GenericDaoImpl<T> {
         }
         return allFieldsClean;
     }
-
 
     @Override
     public T fillObject(ResultSet rs) throws SQLException {

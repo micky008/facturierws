@@ -4,7 +4,6 @@ import com.msc.facturierws.dao.MonEntrepriseDAO;
 import com.msc.facturierws.dao.specif.DAOSpecif;
 import com.msc.facturierws.entity.MonEntreprise;
 import com.msc.facturierws.entity.MoyenDePaiement;
-import com.msc.facturierws.helper.MoyenDePaiementHelper;
 import com.msc.rest.tokenrestjersey.Secured;
 import com.msc.rest.tokenrestjersey.Token;
 import com.msc.rest.tokenrestjersey.TokenController;
@@ -95,21 +94,20 @@ public class MonEntrepriseController extends TokenController {
         return null;
     }
 
-    
     @GET
     @Path("/mdp")
     @Produces(MediaType.APPLICATION_JSON)
     public Helper<String> getMoyenDePaiement() {
-        
+
         StringBuilder sb = new StringBuilder();
-        for (MoyenDePaiement mdp : MoyenDePaiement.values()){
+        for (MoyenDePaiement mdp : MoyenDePaiement.values()) {
             sb.append(mdp.name());
             sb.append(MonEntreprise.SEPARATOR_MENTION_LEGAL);
         }
-        sb = sb.delete(sb.length()-1, sb.length());
+        sb = sb.delete(sb.length() - 1, sb.length());
         Helper<String> hs = new Helper<>();
         hs.setMyObject(sb.toString());
-       return hs;
+        return hs;
     }
 
 }

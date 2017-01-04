@@ -1,7 +1,6 @@
 package com.msc.facturierws.entity;
 
 //
-
 import com.msc.rest.tokenrestjersey.TokenEntity;
 
 //
@@ -13,15 +12,10 @@ import com.msc.rest.tokenrestjersey.TokenEntity;
 //  @ Author : 
 //
 //
+public class Template extends TokenEntity {
 
-
-
-
-public class Template extends TokenEntity{
-	private Integer id;
-	private String templateUrl;
-        
-       
+    private Integer id;
+    private String templateUrl;
 
     /**
      * @return the id

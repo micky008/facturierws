@@ -11,7 +11,6 @@ import com.msc.facturierws.helper.DateParamConverterProvider;
 import com.msc.facturierws.helper.DebugMode;
 import com.msc.facturierws.helper.GsonJerseyCustomMessageBody;
 import com.msc.facturierws.security.Password;
-import com.msc.rest.tokenrestjersey.helper.Helper;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;

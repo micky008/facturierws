@@ -4,13 +4,10 @@ import com.msc.dao.daoproject.generic.DAO;
 import com.msc.facturierws.dao.specif.DAOSpecif;
 import com.msc.facturierws.dao.specif.DAOSpecifGeneric;
 import com.msc.facturierws.entity.Facture;
-import com.msc.facturierws.entity.LigneFacture;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import javax.ws.rs.PathParam;
 
 /**
  *
@@ -22,10 +19,10 @@ public class FactureDao extends DAOSpecifGeneric<Facture> {
         super(DAO.getConnection());
     }
 
-    public Facture getFactureById(Integer id) throws SQLException {
+    public Facture getFactureByNoFacture(String noFacture) throws SQLException {
         FactureLigneDAO lfdao = (FactureLigneDAO) DAOSpecif.getInstance(FactureLigneDAO.class, null);
-        Facture f = super.getObjectById(id);
-        f.setLignes(lfdao.getLigneByFacture(id));
+        Facture f = preparedSelectOnce("where id_facture=" + noFacture);
+        f.setLignes(lfdao.getLigneByFacture(f.getNoFacture()));
         return f;
     }
 

@@ -28,7 +28,7 @@ public class DateParamConverterProvider implements ParamConverterProvider {
             @Override
             public Date fromString(String value) {
                 try {
-                    if (value == null || value.isEmpty()){
+                    if (value == null || value.isEmpty()) {
                         return null;
                     }
                     return formatter.parse(value);

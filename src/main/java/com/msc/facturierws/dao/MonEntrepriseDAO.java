@@ -12,7 +12,6 @@ import java.sql.SQLException;
  */
 public class MonEntrepriseDAO extends DAOSpecifGeneric<MonEntreprise> {
 
-
     public MonEntrepriseDAO() {
         super(DAO.getConnection());
     }
@@ -25,7 +24,5 @@ public class MonEntrepriseDAO extends DAOSpecifGeneric<MonEntreprise> {
         r.close();
         return new Boolean(res > 0);
     }
-
-
 
 }

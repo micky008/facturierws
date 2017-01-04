@@ -1,7 +1,6 @@
 package com.msc.facturierws.entity;
 
 //
-import com.msc.rest.tokenrestjersey.TokenEntity;
 import java.io.Serializable;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;

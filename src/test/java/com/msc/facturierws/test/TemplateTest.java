@@ -129,7 +129,7 @@ public class TemplateTest {
         facture.setDate(cal.getTime());
         facture.setIdModele(1);
         facture.setLignes(lines);
-        facture.setId(1);
+        facture.setNumber(1);
         facture.genereNoFacture();
 
         Map<String, Object> root = new HashMap<>();

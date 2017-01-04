@@ -28,7 +28,7 @@ public class MonEntreprise extends TokenEntity {
 
     @StaticField
     public static final String SEPARATOR_MENTION_LEGAL = ";";
-    
+
     @Id
     private Integer id;
 
@@ -120,20 +120,19 @@ public class MonEntreprise extends TokenEntity {
      * @return the mentionLegale
      */
     public List<String> getMentionLegalesList() {
-        return Arrays.asList(mentionLegales.split("\\"+SEPARATOR_MENTION_LEGAL));
+        return Arrays.asList(mentionLegales.split("\\" + SEPARATOR_MENTION_LEGAL));
     }
 
     public void setMentionLegalesList(List<String> mls) {
         StringBuilder sb = new StringBuilder();
-        for (String ml : mls){
+        for (String ml : mls) {
             sb.append(ml);
             sb.append(SEPARATOR_MENTION_LEGAL);
         }
-        sb = sb.delete(sb.length()-1, sb.length());
+        sb = sb.delete(sb.length() - 1, sb.length());
         this.mentionLegales = sb.toString();
     }
 
-    
     /**
      * @return the mentionLegalesStr
      */

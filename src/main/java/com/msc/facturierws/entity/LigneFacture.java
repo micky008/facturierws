@@ -2,7 +2,7 @@ package com.msc.facturierws.entity;
 
 import com.msc.dao.daoproject.annotation.Id;
 import com.msc.dao.daoproject.annotation.Name;
-import java.util.Date;
+import com.msc.rest.tokenrestjersey.TokenEntity;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -11,12 +11,12 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Name(name = "ligneFacture")
 @XmlRootElement(name = "LigneFacture")
-public class LigneFacture {
+public class LigneFacture extends TokenEntity {
 
     @Id
     private Integer id;
 
-    private int idFacture;
+    private String idFacture;
 
     private String designation;
     private String reference;
@@ -97,14 +97,14 @@ public class LigneFacture {
     /**
      * @return the idFacture
      */
-    public int getIdFacture() {
+    public String getIdFacture() {
         return idFacture;
     }
 
     /**
      * @param idFacture the idFacture to set
      */
-    public void setIdFacture(int idFacture) {
+    public void setIdFacture(String idFacture) {
         this.idFacture = idFacture;
     }
 

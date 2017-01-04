@@ -1,7 +1,6 @@
 package com.msc.facturierws.entity;
 
 //
-
 import com.msc.rest.tokenrestjersey.TokenEntity;
 
 //
@@ -13,14 +12,11 @@ import com.msc.rest.tokenrestjersey.TokenEntity;
 //  @ Author : 
 //
 //
+public class HistoriqueFacture extends TokenEntity {
 
-
-
-
-public class HistoriqueFacture extends TokenEntity{
-	private Client client;
-	private Template template;
-	private Facture facture;
+    private Client client;
+    private Template template;
+    private Facture facture;
 
     /**
      * @return the client
@@ -63,6 +59,5 @@ public class HistoriqueFacture extends TokenEntity{
     public void setFacture(Facture facture) {
         this.facture = facture;
     }
-        
-        
+
 }

@@ -10,14 +10,15 @@ import java.util.List;
  *
  * @author micky
  */
-class FactureLigneDAO extends DAOSpecifGeneric<LigneFacture> {
+public class FactureLigneDAO extends DAOSpecifGeneric<LigneFacture> {
 
     public FactureLigneDAO() {
         super(DAO.getConnection());
     }
 
-    public List<LigneFacture> getLigneByFacture(Integer idFacture) throws SQLException {
-        return preparedSelectMulti("where id_facture=" + idFacture);
+    public List<LigneFacture> getLigneByFacture(String idFacture) throws SQLException {
+        this.secureList.add(idFacture);
+        return securePreparedSelectMulti("where id_facture = ?", null);
     }
 
 }

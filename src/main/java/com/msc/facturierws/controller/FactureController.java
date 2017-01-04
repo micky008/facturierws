@@ -48,10 +48,10 @@ public class FactureController extends TokenController {
     @Path("/search/{id}")
     @Secured
     @Produces(MediaType.APPLICATION_JSON)
-    public Facture getFactureById(@PathParam("id") Integer id, @Context SecurityContext sc) {
+    public Facture getFactureById(@PathParam("id") String noFacture, @Context SecurityContext sc) {
         try {
             FactureDao fdao = (FactureDao) DAOSpecif.getInstance(FactureDao.class, sc);
-            return fdao.getFactureById(id);
+            return fdao.getFactureByNoFacture(noFacture);
         } catch (SQLException ex) {
             Logger.getLogger(FactureController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -130,7 +130,7 @@ public class FactureController extends TokenController {
 
             MonEntrepriseDAO medao = (MonEntrepriseDAO) DAOSpecif.getInstance(MonEntrepriseDAO.class, sc);
             ClientDao cdao = (ClientDao) DAOSpecif.getInstance(ClientDao.class, sc);
-            String templateFull = FreeMarkerHelper.convert(facture, cdao.getObjectById(facture.getId()), medao.getObjectById(1));
+            String templateFull = FreeMarkerHelper.convert(facture, cdao.getClientByNoFacture(facture.getNoFacture()), medao.getObjectById(1));
             InputStream is = RecivedPDF.getPDF(facture, templateFull);
             String res = new String(Base64.encodeBase64(IOUtils.toByteArray(is)));
             Helper<String> hi = new Helper<>();

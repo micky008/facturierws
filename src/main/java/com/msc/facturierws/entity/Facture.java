@@ -1,7 +1,6 @@
 package com.msc.facturierws.entity;
 
 //
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.msc.dao.daoproject.annotation.Id;
 import com.msc.dao.daoproject.annotation.Name;
 import com.msc.dao.daoproject.annotation.StaticField;
@@ -30,16 +29,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Facture extends TokenEntity {
 
     @Id
-    private Integer id;
+    @FormParam("noFacture")
+    private String noFacture;
+
     @FormParam("idClient")
     private Integer idClient;
     @FormParam("idModele")
     private Integer idModele;
     @FormParam("dateDuJour")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMDD", timezone = "CET")
     private Date dateDuJour;
     @FormParam("dateRegle")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMDD", timezone = "CET")
     private Date dateRegle;
     @FormParam("isFinish")
     private Boolean isFinish;
@@ -51,15 +50,16 @@ public class Facture extends TokenEntity {
     private Double resteAPayer;
     @FormParam("autreMoyenDePaiment")
     private String autreMoyenDePaiment;
-    @FormParam("noFacture")
-    private String noFacture;
+
+    @StaticField
     @FormParam("lignesStr")
     private String lignesStr;
-
     @StaticField
     private List<LigneFacture> lignes;
     @StaticField
     private Client client;
+    @StaticField
+    private Integer number;
 
     /**
      * @return the idClient
@@ -201,20 +201,6 @@ public class Facture extends TokenEntity {
         this.lignes = lignes;
     }
 
-    /**
-     * @return the id
-     */
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getNoFacture() {
         return this.noFacture;
     }
@@ -228,7 +214,7 @@ public class Facture extends TokenEntity {
 
     public void genereNoFacture() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        noFacture = sdf.format(dateDuJour) + id;
+        noFacture = sdf.format(dateDuJour) + number;
     }
 
     public void generateLinesStr() {
@@ -245,7 +231,7 @@ public class Facture extends TokenEntity {
             sb.append("#");
         }
         sb = sb.delete(sb.length() - 1, sb.length());
-        lignesStr = sb.toString();
+        this.lignesStr = sb.toString();
     }
 
     public void generateLines() {
@@ -253,17 +239,19 @@ public class Facture extends TokenEntity {
             return;
         }
         String[] tmps = lignesStr.split("\\#");
-        List<LigneFacture> lfs = new ArrayList<>(tmps.length);
+        this.lignes = new ArrayList<>(tmps.length);
         LigneFacture lf = null;
         for (String ltmps : tmps) {
             String[] ltmp = ltmps.split("\\;");
             lf = new LigneFacture();
+            lf.setIdFacture(noFacture);
             lf.setDesignation(ltmp[0]);
             lf.setQuantite(Double.parseDouble(ltmp[1]));
             lf.setPuHT(Double.parseDouble(ltmp[2]));
             lf.setTva(1d);
             lf.setReference("");
-            lfs.add(lf);
+
+            this.lignes.add(lf);
         }
     }
 
@@ -281,4 +269,7 @@ public class Facture extends TokenEntity {
         this.client = client;
     }
 
+    public void setNumber(int no) {
+        this.number = no;
+    }
 }

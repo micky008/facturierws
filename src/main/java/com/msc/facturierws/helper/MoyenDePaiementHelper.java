@@ -18,6 +18,7 @@ public class MoyenDePaiementHelper extends TokenEntity {
 
     public MoyenDePaiementHelper() {
     }
+
     public MoyenDePaiementHelper(MoyenDePaiement t) {
         this.type = t;
     }

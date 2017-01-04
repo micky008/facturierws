@@ -32,7 +32,7 @@ public class GsonJerseyCustomMessageBody implements MessageBodyWriter<Helper> {
 
     @Override
     public boolean isWriteable(Class<?> arg0, Type arg1, Annotation[] arg2, MediaType arg3) {
-        return arg0 == Helper.class ||  arg0 == ListHelper.class ;
+        return arg0 == Helper.class || arg0 == ListHelper.class;
     }
 
     @Override
