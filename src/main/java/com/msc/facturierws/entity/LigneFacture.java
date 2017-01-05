@@ -14,14 +14,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class LigneFacture extends TokenEntity {
 
     @Id
-    private Integer id;
-
-    private String idFacture;
+    private String noFacture;
 
     private String designation;
     private String reference;
     private Double quantite;
-    private Double puHT;
+    private Double puHt;
     private Double tva;
 
     /**
@@ -69,15 +67,15 @@ public class LigneFacture extends TokenEntity {
     /**
      * @return the puHT
      */
-    public Double getPuHT() {
-        return puHT;
+    public Double getPuHt() {
+        return puHt;
     }
 
     /**
      * @param puHT the puHT to set
      */
-    public void setPuHT(Double puHT) {
-        this.puHT = puHT;
+    public void setPuHt(Double puHT) {
+        this.puHt = puHT;
     }
 
     /**
@@ -97,29 +95,16 @@ public class LigneFacture extends TokenEntity {
     /**
      * @return the idFacture
      */
-    public String getIdFacture() {
-        return idFacture;
+    public String getNoFacture() {
+        return noFacture;
     }
 
     /**
      * @param idFacture the idFacture to set
      */
-    public void setIdFacture(String idFacture) {
-        this.idFacture = idFacture;
+    public void setNoFacture(String idFacture) {
+        this.noFacture = idFacture;
     }
 
-    /**
-     * @return the id
-     */
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
 }

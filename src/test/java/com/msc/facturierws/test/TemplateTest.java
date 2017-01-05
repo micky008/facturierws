@@ -108,7 +108,7 @@ public class TemplateTest {
         List<LigneFacture> lines = new ArrayList<>();
         LigneFacture line = new LigneFacture();
         line.setDesignation("formation JAVA du 12/10/2012");
-        line.setPuHT(40d);
+        line.setPuHt(40d);
         line.setQuantite(8d);
         line.setReference("");
         line.setTva(1d);

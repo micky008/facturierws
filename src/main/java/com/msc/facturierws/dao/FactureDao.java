@@ -33,8 +33,16 @@ public class FactureDao extends DAOSpecifGeneric<Facture> {
             factures = securePreparedSelectMulti("where no_facture = ?", null);
         } else if (date != null) {
             factures = preparedSelectMulti("where date_du_jour=" + toDate(date));
-        } else if (idClient != null && idClient > 1) {
+        } else if (idClient != null && idClient >= 1) {
             factures = preparedSelectMulti("where id_client=" + idClient);
+        }
+        if (factures == null){
+            return null;
+        }
+        FactureLigneDAO lfdao = (FactureLigneDAO) DAOSpecif.getInstance(FactureLigneDAO.class, null);
+        for (Facture f : factures) {
+           f.setLignes(lfdao.getLigneByFacture(f.getNoFacture()));
+           f.generateLinesStr();
         }
         return factures;
     }

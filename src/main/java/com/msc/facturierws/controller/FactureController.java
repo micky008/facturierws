@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -82,17 +83,18 @@ public class FactureController extends TokenController {
     @Path("/search/{noFacture}/{date}/{idClient}")
     @Secured
     @Produces(MediaType.APPLICATION_JSON)
-    public ListHelper<Facture> getFactureBySearch(@PathParam("noFacture") String noFacture, @PathParam("date") String date, @PathParam("idClient") Integer idClient, @Context SecurityContext sc) {
+    public ListHelper<Facture> getFactureBySearch(@PathParam("noFacture") String noFacture, @PathParam("date") String dateStr, @PathParam("idClient") Integer idClient, @Context SecurityContext sc) {
         try {
             FactureDao fdao = (FactureDao) DAOSpecif.getInstance(FactureDao.class, sc);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+            Date date = null;
             if (noFacture.equals("null")) {
                 noFacture = null;
             }
-            if (date.equals("19700101")) {
-                date = null;
+            if (!dateStr.equals("19700101")) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+                date = sdf.parse(dateStr);
             }
-            List<Facture> lf = fdao.getFactureBySearch(noFacture, sdf.parse(date), idClient);
+            List<Facture> lf = fdao.getFactureBySearch(noFacture, date, idClient);
             ListHelper<Facture> lhf = new ListHelper<>();
             lhf.setList(lf);
             lhf.setToken(TokenHelper.newToken(sc));

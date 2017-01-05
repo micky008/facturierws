@@ -227,7 +227,7 @@ public class Facture extends TokenEntity {
             sb.append(";");
             sb.append(lf.getQuantite());
             sb.append(";");
-            sb.append(lf.getPuHT());
+            sb.append(lf.getPuHt());
             sb.append("#");
         }
         sb = sb.delete(sb.length() - 1, sb.length());
@@ -244,10 +244,10 @@ public class Facture extends TokenEntity {
         for (String ltmps : tmps) {
             String[] ltmp = ltmps.split("\\;");
             lf = new LigneFacture();
-            lf.setIdFacture(noFacture);
+            lf.setNoFacture(noFacture);
             lf.setDesignation(ltmp[0]);
             lf.setQuantite(Double.parseDouble(ltmp[1]));
-            lf.setPuHT(Double.parseDouble(ltmp[2]));
+            lf.setPuHt(Double.parseDouble(ltmp[2]));
             lf.setTva(1d);
             lf.setReference("");
 
@@ -272,4 +272,19 @@ public class Facture extends TokenEntity {
     public void setNumber(int no) {
         this.number = no;
     }
+    
+    
+    public Double getMontant() {
+        Double total = 0d;
+        for (LigneFacture lfacture : lignes) {            
+            total += lfacture.getQuantite() * lfacture.getPuHt();
+        }
+        return total;
+    }
+    
+    @Override
+    public String toString(){
+        return client.toString() + " - "+noFacture+" - "+getMontant()+" - "+isRegle;
+    }
+    
 }
