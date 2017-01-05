@@ -92,14 +92,14 @@ public class Facture extends TokenEntity {
     /**
      * @return the dateDuJour
      */
-    public Date getDate() {
+    public Date getDateDuJour() {
         return dateDuJour;
     }
 
     /**
      * @param date the dateDuJour to set
      */
-    public void setDate(Date date) {
+    public void setDateDuJour(Date date) {
         this.dateDuJour = date;
     }
 
@@ -214,9 +214,12 @@ public class Facture extends TokenEntity {
 
     public void genereNoFacture() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        noFacture = sdf.format(dateDuJour) + number;
+        noFacture = "F"+sdf.format(dateDuJour) + number;
     }
 
+    /**
+     * pards de la liste pour en faire une string
+     */
     public void generateLinesStr() {
         if (lignes == null || lignes.isEmpty()) {
             return;
@@ -234,6 +237,9 @@ public class Facture extends TokenEntity {
         this.lignesStr = sb.toString();
     }
 
+    /**
+     * Par de linesStr pour faire la liste
+     */
     public void generateLines() {
         if (lignesStr == null || lignesStr.isEmpty()) {
             return;

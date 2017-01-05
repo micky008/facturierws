@@ -18,7 +18,8 @@ public class FactureLigneDAO extends DAOSpecifGeneric<LigneFacture> {
 
     public List<LigneFacture> getLigneByFacture(String idFacture) throws SQLException {
         this.secureList.add(idFacture);
-        return securePreparedSelectMulti("where no_facture = ?", null);
+        List<LigneFacture> res = securePreparedSelectMulti("where no_facture = ?", null);
+        return res;
     }
 
 }

@@ -126,7 +126,7 @@ public class TemplateTest {
         cal.set(Calendar.YEAR, 2016);
         cal.set(Calendar.MONTH, Calendar.DECEMBER);
         cal.set(Calendar.DAY_OF_MONTH, 12);
-        facture.setDate(cal.getTime());
+        facture.setDateDuJour(cal.getTime());
         facture.setIdModele(1);
         facture.setLignes(lines);
         facture.setNumber(1);
