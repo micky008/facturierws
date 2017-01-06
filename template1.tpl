@@ -28,7 +28,7 @@
                     </table>
                 </td>
             </tr>
-            <tr><td style="text-align: right" colspan="2">Date : ${facture.date?date}</td></tr>
+            <tr><td style="text-align: right" colspan="2">Date : ${facture.dateDuJour?date}</td></tr>
             <tr><td style="text-align: right" colspan="2"><b>Facture no: ${facture.getNoFacture()}</b></td></tr>
             <tr><td colspan="2">&nbsp;</td></tr>
             <tr><td colspan="2">&nbsp;</td></tr>
@@ -40,15 +40,15 @@
                         <#assign total = 0>
                         <#list facture.lignes as ligne>
                         <tr style="text-align: center">
-                            <td>${ligne.designation}</td><td>${ligne.quantite}</td><td>${ligne.puHT}</td><td style="border-left: 1px solid black; border-right: 1px solid black;">${ligne.quantite * ligne.puHT}</td>                            
-                            <#assign total += (ligne.quantite * ligne.puHT)>
+                            <td>${ligne.designation}</td><td>${ligne.quantite}</td><td>${ligne.puHt}</td><td style="border-left: 1px solid black; border-right: 1px solid black;">${ligne.quantite * ligne.puHt}</td>                            
+                            <#assign total += (ligne.quantite * ligne.puHt)>
                         </tr>
                         <tr><td colspan="3">&nbsp;</td><td style="border-left: 1px solid black; border-right: 1px solid black;">&nbsp;</td></tr>
                         </#list>
                         <tr><td colspan="2">&nbsp;</td><td style="text-align: center"><h2>TOTAL</h2></td><td style="border: 1px solid black; text-align: center">${total} Euros</td> </tr>
                         <tr><td colspan="4">&nbsp;</td></tr>
                         <tr><td colspan="4">&nbsp;</td></tr>
-                        <#list moi.mentionLegales as ml>
+                        <#list moi.getMentionLegalesList() as ml>
                         <tr><td style="text-align: left;" colspan="4">${ml}</td> </tr>
                         </#list>
                     </table>

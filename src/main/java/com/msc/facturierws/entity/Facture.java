@@ -8,6 +8,7 @@ import com.msc.rest.tokenrestjersey.TokenEntity;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.Produces;
@@ -214,7 +215,7 @@ public class Facture extends TokenEntity {
 
     public void genereNoFacture() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        noFacture = "F"+sdf.format(dateDuJour) + number;
+        noFacture = "F" + sdf.format(dateDuJour) + number;
     }
 
     /**
@@ -278,19 +279,67 @@ public class Facture extends TokenEntity {
     public void setNumber(int no) {
         this.number = no;
     }
-    
-    
+
     public Double getMontant() {
         Double total = 0d;
-        for (LigneFacture lfacture : lignes) {            
+        for (LigneFacture lfacture : lignes) {
             total += lfacture.getQuantite() * lfacture.getPuHt();
         }
         return total;
     }
-    
+
     @Override
-    public String toString(){
-        return client.toString() + " - "+noFacture+" - "+getMontant()+" - "+isRegle;
+    public String toString() {
+        return client.toString() + " - " + noFacture + " - " + getMontant() + " - " + isRegle;
     }
-    
+
+    public boolean equals(Facture facture) {
+        if (facture == null) {
+            return false;
+        }
+
+        boolean exactLines = true;
+        if (lignes == null && facture.getLignes() == null) {
+            exactLines = true;
+        } else if (lignes != null && facture.getLignes() == null) {
+            exactLines = false;
+        } else if (lignes == null && facture.getLignes() != null) {
+            exactLines = false;
+        } else if (lignes.size() != facture.getLignes().size()) {
+            exactLines = false;
+        } else {
+            Iterator<LigneFacture> itFacture = facture.lignes.iterator();
+            Iterator<LigneFacture> itSelf = lignes.iterator();
+            boolean[] tab = new boolean[lignes.size()];
+            int i = 0;
+            while (itFacture.hasNext()) {
+                itSelf.hasNext();
+                tab[i++] = (itFacture.next().equals(itSelf.next()));
+            }
+            for (boolean t : tab) {
+                if (!t) {
+                    exactLines = false;
+                    break;
+                }
+            }
+        }
+
+        return (facture.autreMoyenDePaiment.equals(autreMoyenDePaiment)
+                && facture.commentRegle.equals(commentRegle)
+                && facture.dateDuJour.equals(dateDuJour)
+                && facture.dateRegle.equals(dateRegle)
+                && facture.idClient.equals(idClient)
+                && facture.idModele.equals(idModele)
+                && facture.isFinish.equals(isFinish)
+                && facture.isRegle.equals(isRegle)
+                && facture.noFacture.equals(noFacture)
+                && facture.resteAPayer.equals(resteAPayer)
+                && exactLines);
+    }
+
+    public boolean haveLigne() {
+        return lignes != null && !lignes.isEmpty();
+
+    }
+
 }

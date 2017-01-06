@@ -44,7 +44,7 @@ import org.apache.commons.io.IOUtils;
 @Produces(MediaType.APPLICATION_JSON)
 @Resource
 public class FactureController extends TokenController {
-
+    
     @GET
     @Path("/search/{id}")
     @Secured
@@ -58,7 +58,7 @@ public class FactureController extends TokenController {
         }
         return null;
     }
-
+    
     @GET
     @Path("/number/{date}")
     @Secured
@@ -78,7 +78,7 @@ public class FactureController extends TokenController {
         }
         return null;
     }
-
+    
     @GET
     @Path("/search/{noFacture}/{date}/{idClient}")
     @Secured
@@ -104,7 +104,22 @@ public class FactureController extends TokenController {
         }
         return null;
     }
-
+    
+    @GET
+    @Path("/ferme/{noFacture}")
+    @Secured
+    @Produces(MediaType.APPLICATION_JSON)
+    public Token fermeFacture(@PathParam("noFacture") String noFacture, @Context SecurityContext sc) {
+        try {
+            FactureDao fdao = (FactureDao) DAOSpecif.getInstance(FactureDao.class, sc);
+            fdao.fermeFacture(noFacture);
+            return TokenHelper.newToken(sc);
+        } catch (SQLException ex) {
+            Logger.getLogger(FactureController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
     @POST
     @Path("/insert/")
     @Secured
@@ -121,7 +136,24 @@ public class FactureController extends TokenController {
         }
         return null;
     }
-
+    
+    @POST
+    @Path("/update/")
+    @Secured
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public Token updateFacture(@BeanParam Facture facture, @Context SecurityContext sc) {
+        try {
+            facture.generateLines();
+            FactureDao fdao = (FactureDao) DAOSpecif.getInstance(FactureDao.class, sc);
+            fdao.update(facture);
+            return TokenHelper.newToken(sc);
+        } catch (SQLException ex) {
+            Logger.getLogger(FactureController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
     @POST
     @Path("/print")
     @Secured
@@ -129,7 +161,7 @@ public class FactureController extends TokenController {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Helper<String> printFacture(@BeanParam Facture facture, @Context SecurityContext sc) {
         try {
-
+            facture.generateLines();
             MonEntrepriseDAO medao = (MonEntrepriseDAO) DAOSpecif.getInstance(MonEntrepriseDAO.class, sc);
             ClientDao cdao = (ClientDao) DAOSpecif.getInstance(ClientDao.class, sc);
             String templateFull = FreeMarkerHelper.convert(facture, cdao.getClientByNoFacture(facture.getNoFacture()), medao.getObjectById(1));
@@ -146,5 +178,5 @@ public class FactureController extends TokenController {
         }
         return null;
     }
-
+    
 }

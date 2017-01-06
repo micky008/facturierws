@@ -3,6 +3,7 @@ package com.msc.facturierws.entity;
 import com.msc.dao.daoproject.annotation.Id;
 import com.msc.dao.daoproject.annotation.Name;
 import com.msc.rest.tokenrestjersey.TokenEntity;
+import java.util.Objects;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -106,5 +107,31 @@ public class LigneFacture extends TokenEntity {
         this.noFacture = idFacture;
     }
 
+      @Override
+    public boolean equals(Object f) {
+        if (!(f instanceof LigneFacture) || f == null){
+            return false;
+        }
+        LigneFacture lf = (LigneFacture)f;
+        return (lf.designation.equals(designation) &&
+                lf.noFacture.equals(noFacture) &&
+                lf.puHt.equals(puHt) &&
+                lf.quantite.equals(quantite) &&
+                lf.reference.equals(reference) &&
+                lf.tva.equals(tva));
+                
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 53 * hash + Objects.hashCode(this.noFacture);
+        hash = 53 * hash + Objects.hashCode(this.designation);
+        hash = 53 * hash + Objects.hashCode(this.reference);
+        hash = 53 * hash + Objects.hashCode(this.quantite);
+        hash = 53 * hash + Objects.hashCode(this.puHt);
+        hash = 53 * hash + Objects.hashCode(this.tva);
+        return hash;
+    }
 
 }
