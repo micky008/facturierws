@@ -1,27 +1,33 @@
 package com.msc.facturierws.test;
 
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
-import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.commons.io.IOUtils;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.tool.xml.XMLWorker;
+import com.itextpdf.tool.xml.XMLWorkerHelper;
+import com.itextpdf.tool.xml.css.CssFile;
+import com.itextpdf.tool.xml.css.StyleAttrCSSResolver;
+import com.itextpdf.tool.xml.html.Tags;
+import com.itextpdf.tool.xml.parser.XMLParser;
+import com.itextpdf.tool.xml.pipeline.css.CSSResolver;
+import com.itextpdf.tool.xml.pipeline.css.CssResolverPipeline;
+import com.itextpdf.tool.xml.pipeline.end.PdfWriterPipeline;
+import com.itextpdf.tool.xml.pipeline.html.HtmlPipeline;
+import com.itextpdf.tool.xml.pipeline.html.HtmlPipelineContext;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
 
 /**
  *
@@ -90,60 +96,105 @@ public class HtmlToPdfTest {
 //            Logger.getLogger(HtmlToPdfTest.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //    }
-
+//    @Ignore
+//    public void test2() {
+//
+//        try {
+//            URL urlTpl = HtmlToPdfTest.class.getResource("/facture.html");
+//            String template = IOUtils.toString(urlTpl.toURI(), Charset.forName("UTF-8"));
+//
+//            String url = "http://micky.ovh/testpdf/";
+//            URL obj = new URL(url);
+//            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+//
+//            //add reuqest header
+//            con.setRequestMethod("POST");
+//            con.setRequestProperty("User-Agent", "");
+//            con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+//            con.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+//
+//            List<NameValuePair> nvps = new ArrayList<>();
+//
+//            nvps.add(new BasicNameValuePair("content", Base64.encode(template.getBytes(Charset.forName("UTF-8"))).replace("+", "%2B")));//.replace("'", "\\'").replace("\"", "\\\"")));
+//            nvps.add(new BasicNameValuePair("filename", "facture.pdf"));
+//
+//            String urlParameters = "";
+//            for (NameValuePair np : nvps) {
+//                urlParameters += np.getName() + "=" + np.getValue() + "&";
+//            }
+//
+//            // Send post request
+//            con.setDoOutput(true);
+//            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+//            wr.writeBytes(urlParameters);
+//            wr.flush();
+//            wr.close();
+//
+//            // int responseCode = con.getResponseCode();
+//            // System.out.println("\nSending 'POST' request to URL : " + url);
+//            // System.out.println("Post parameters : " + urlParameters);
+//            // System.out.println("Response Code : " + responseCode);
+//            //StringWriter sw = new StringWriter();
+//            // WriterOutputStream fos = new WriterOutputStream(sw, Charset.forName("UTF-8"));
+//            FileOutputStream fos = new FileOutputStream("factureTest.pdf");
+//            IOUtils.copy(con.getInputStream(), fos);
+//            IOUtils.closeQuietly(fos);
+//
+//            //     Logger.getLogger(HtmlToPdfTest.class.getName()).log(Level.INFO, sw.toString());
+//        } catch (MalformedURLException ex) {
+//            Logger.getLogger(HtmlToPdfTest.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (ProtocolException ex) {
+//            Logger.getLogger(HtmlToPdfTest.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (IOException ex) {
+//            Logger.getLogger(HtmlToPdfTest.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (URISyntaxException ex) {
+//            Logger.getLogger(HtmlToPdfTest.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//    }
     @Test
-    public void test2() {
+    public void itext() {
 
         try {
-            URL urlTpl = HtmlToPdfTest.class.getResource("/facture.html");
-            String template = IOUtils.toString(urlTpl.toURI(), Charset.forName("UTF-8"));
+            File file = new File(".", "factureTest.pdf");
+            InputStream CSS = HtmlToPdfTest.class.getResourceAsStream("/facture.css");
+            InputStream HTML = HtmlToPdfTest.class.getResourceAsStream("/facture.html");
+            Document document = new Document();
 
-            String url = "http://micky.ovh/testpdf/";
-                URL obj = new URL(url);
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            // step 2
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(file));
+           // writer.setInitialLeading(12.5f);
 
-            //add reuqest header
-            con.setRequestMethod("POST");
-            con.setRequestProperty("User-Agent", "");
-            con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-            con.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+            // step 3
+            document.open();
 
-            List<NameValuePair> nvps = new ArrayList<>();
-            
-            nvps.add(new BasicNameValuePair("content", Base64.encode(template.getBytes(Charset.forName("UTF-8"))).replace("+", "%2B")));//.replace("'", "\\'").replace("\"", "\\\"")));
-            nvps.add(new BasicNameValuePair("filename", "facture.pdf"));
+            // step 4
+            // CSS
+            CSSResolver cssResolver = new StyleAttrCSSResolver();
+            CssFile cssFile = XMLWorkerHelper.getCSS(CSS);
+            cssResolver.addCss(cssFile);
 
-            String urlParameters = "";
-            for (NameValuePair np : nvps) {
-                urlParameters += np.getName() + "=" + np.getValue() + "&";
-            }
+            // HTML
+            HtmlPipelineContext htmlContext = new HtmlPipelineContext(null);
+            htmlContext.setTagFactory(Tags.getHtmlTagProcessorFactory());
 
-            // Send post request
-            con.setDoOutput(true);
-            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-            wr.writeBytes(urlParameters);
-            wr.flush();
-            wr.close();
+            // Pipelines
+            PdfWriterPipeline pdf = new PdfWriterPipeline(document, writer);
+            HtmlPipeline html = new HtmlPipeline(htmlContext, pdf);
+            CssResolverPipeline css = new CssResolverPipeline(cssResolver, html);
 
-           // int responseCode = con.getResponseCode();
-           // System.out.println("\nSending 'POST' request to URL : " + url);
-           // System.out.println("Post parameters : " + urlParameters);
-           // System.out.println("Response Code : " + responseCode);
+            // XML Worker
+            XMLWorker worker = new XMLWorker(css, true);
+            XMLParser p = new XMLParser(worker);
+            p.parse(HTML, Charset.forName("UTF-8"));
 
-            //StringWriter sw = new StringWriter();
-            // WriterOutputStream fos = new WriterOutputStream(sw, Charset.forName("UTF-8"));
-            FileOutputStream fos = new FileOutputStream("factureTest.pdf");
-            IOUtils.copy(con.getInputStream(), fos);
-            IOUtils.closeQuietly(fos);
-
-            //     Logger.getLogger(HtmlToPdfTest.class.getName()).log(Level.INFO, sw.toString());
-        } catch (MalformedURLException ex) {
+            // step 5
+            document.close();
+        } catch (DocumentException ex) {
             Logger.getLogger(HtmlToPdfTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ProtocolException ex) {
+        } catch (FileNotFoundException ex) {
             Logger.getLogger(HtmlToPdfTest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(HtmlToPdfTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (URISyntaxException ex) {
             Logger.getLogger(HtmlToPdfTest.class.getName()).log(Level.SEVERE, null, ex);
         }
 

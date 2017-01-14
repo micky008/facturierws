@@ -1,14 +1,57 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<style type="text/css">
+				.tdal{
+					text-align: left;
+				}
+
+				.tdac{
+					text-align: center;
+				}
+
+				.tdar{
+					text-align: right;
+				}
+
+				.thbd{
+					border-bottom: solid 1px black;
+				}
+
+				.td2br{
+					border-left: 1px solid black;
+					border-right: 1px solid black;
+				}
+
+				.nom{
+					text-align: left;
+					text-decoration: underline; 
+					font-style: italic ;
+				}
+
+				.bd{
+					border : 1px solid black;
+				}
+
+				.mauto{
+					margin: auto;
+				}
+
+				th h2{
+					font-weight: bolder;
+				}
+				tr{
+					height: 20px;
+				}
+	</style>
     </head>
     <body>
-        <table style="width: 50%;">
+        <table>
             <!--entete entreprise et client-->
             <tr>
-                <td style="border: 1px solid black; width: 50%">
+                <td class="bd ">
                     <table>
                         <tr><td><b>${moi.nom} ${moi.prenom}</b></td></tr>
                         <tr><td>Siren : ${moi.siren}</td></tr>
@@ -16,8 +59,8 @@
                         <tr><td>${moi.telephone}</td></tr>
                     </table>
                 </td>
-                <td style="border: 1px solid black; width: 50%;">
-                    <table style="margin:auto;">
+                <td class="bd">
+                    <table class="mauto">
                         <#if client.getIsEntreprise() == true>
                         <tr><td><b>${client.raisonSociale} ${client.formeJuridique}</b></td></tr>
                         <tr><td>Siren : ${client.siren}</td></tr>
@@ -28,38 +71,38 @@
                     </table>
                 </td>
             </tr>
-            <tr><td style="text-align: right" colspan="2">Date : ${facture.dateDuJour?date}</td></tr>
-            <tr><td style="text-align: right" colspan="2"><b>Facture no: ${facture.getNoFacture()}</b></td></tr>
+            <tr><td class="tdar"  colspan="2">Date : ${facture.dateDuJour?date}</td></tr>
+            <tr><td class="tdar"  colspan="2"><b>Facture no: ${facture.getNoFacture()}</b></td></tr>
             <tr><td colspan="2">&nbsp;</td></tr>
             <tr><td colspan="2">&nbsp;</td></tr>
             <tr>
                 <td colspan="2">
-                    <table style="width: 100%; text-align: center;" cellspacing="0">
-                        <tr >
-                            <th style="border-bottom: solid 1px black; ">Type de formation</th><th style="border-bottom: solid 1px black">Temps (en heure)</th><th style="border-bottom: solid 1px black">Prix/heure HT</th><th style="border-bottom: solid 1px black">Total HT</th></tr>
+                    <table cellspacing="0">
+                        <tr class="tdac">
+                            <th class="thbd" >Type de formation</th><th class="thbd">Temps (en heure)</th><th class="thbd">Prix/heure HT</th><th class="thbd">Total HT</th></tr>
                         <#assign total = 0>
                         <#list facture.lignes as ligne>
-                        <tr style="text-align: center">
-                            <td>${ligne.designation}</td><td>${ligne.quantite}</td><td>${ligne.puHt}</td><td style="border-left: 1px solid black; border-right: 1px solid black;">${ligne.quantite * ligne.puHt}</td>                            
+                        <tr class="tdac">
+                            <td>${ligne.designation}</td><td>${ligne.quantite}</td><td>${ligne.puHt}</td><td class="td2br">${ligne.quantite * ligne.puHt}</td>                            
                             <#assign total += (ligne.quantite * ligne.puHt)>
                         </tr>
-                        <tr><td colspan="3">&nbsp;</td><td style="border-left: 1px solid black; border-right: 1px solid black;">&nbsp;</td></tr>
+                        <tr><td colspan="3">&nbsp;</td><td class="td2br">&nbsp;</td></tr>
                         </#list>
-                        <tr><td colspan="2">&nbsp;</td><td style="text-align: center"><h2>TOTAL</h2></td><td style="border: 1px solid black; text-align: center">${total} Euros</td> </tr>
+                        <tr class="tdac"><td colspan="2">&nbsp;</td><td ><h2>TOTAL</h2></td><td class="bd">${total} Euros</td> </tr>
                         <tr><td colspan="4">&nbsp;</td></tr>
                         <tr><td colspan="4">&nbsp;</td></tr>
                         <#list moi.getMentionLegalesList() as ml>
-                        <tr><td style="text-align: left;" colspan="4">${ml}</td> </tr>
+                        <tr><td  class="tdal" colspan="4">${ml}</td> </tr>
                         </#list>
                     </table>
                 </td>
             </tr>
             <tr><td colspan="2">&nbsp;</td></tr>
             <tr><td colspan="2">&nbsp;</td></tr>
-            <tr><td style="text-align: left; text-decoration: underline; font-style: italic " >Coordonnées bancaires</td> </tr>
-            <tr><td style="text-align: left;" >${moi.titulairecompte}</td> </tr>
-            <tr><td style="text-align: left;" >${moi.iban}</td> </tr>
-            <tr><td style="text-align: left;" >${moi.bic}</td> </tr>
+            <tr><td class="nom"  >Coordonnées bancaires</td> </tr>
+            <tr><td class="tdal" >${moi.titulairecompte}</td> </tr>
+            <tr><td class="tdal" >${moi.iban}</td> </tr>
+            <tr><td class="tdal" >${moi.bic}</td> </tr>
         </table>
     </body>
 </html>

@@ -1,0 +1,50 @@
+.tdal{
+    text-align: left;
+}
+
+.tdac{
+    text-align: center;
+}
+
+.tdar{
+    text-align: right;
+}
+
+.thbd{
+    border-bottom: solid 1px black;
+}
+
+.td2br{
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.nom{
+    text-align: left;
+    text-decoration: underline; 
+    font-style: italic ;
+}
+
+.bd{
+   border : 1px solid black;
+}
+
+.w50{
+    width: 50%;
+}
+
+.w100{
+    width: 100%;
+}
+
+.mauto{
+    margin: auto;
+}
+
+th h2{
+    font-weight: bold;
+}
+tr{
+    height: 20px;
+}
+

@@ -7,6 +7,7 @@ import com.msc.facturierws.dao.specif.DAOSpecif;
 import com.msc.facturierws.entity.Facture;
 import com.msc.facturierws.helper.FreeMarkerHelper;
 import com.msc.facturierws.helper.RecivedPDF;
+import com.msc.facturierws.pdf.PdfCreator;
 import com.msc.rest.tokenrestjersey.Secured;
 import com.msc.rest.tokenrestjersey.Token;
 import com.msc.rest.tokenrestjersey.TokenController;
@@ -165,15 +166,13 @@ public class FactureController extends TokenController {
             MonEntrepriseDAO medao = (MonEntrepriseDAO) DAOSpecif.getInstance(MonEntrepriseDAO.class, sc);
             ClientDao cdao = (ClientDao) DAOSpecif.getInstance(ClientDao.class, sc);
             String templateFull = FreeMarkerHelper.convert(facture, cdao.getClientByNoFacture(facture.getNoFacture()), medao.getObjectById(1));
-            InputStream is = RecivedPDF.getPDF(facture, templateFull);
-            String res = new String(Base64.encodeBase64(IOUtils.toByteArray(is)));
+            byte[] is = PdfCreator.createPDF(templateFull);
+            String res = new String(Base64.encodeBase64(is));
             Helper<String> hi = new Helper<>();
             hi.setMyObject(res);
             hi.setToken(TokenHelper.newToken(sc));
             return hi;
         } catch (SQLException ex) {
-            Logger.getLogger(FactureController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
             Logger.getLogger(FactureController.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
