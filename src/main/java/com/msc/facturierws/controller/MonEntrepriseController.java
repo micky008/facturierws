@@ -69,15 +69,20 @@ public class MonEntrepriseController extends TokenController {
     @Secured
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Token insert(@BeanParam MonEntreprise me, @Context SecurityContext securityContext) {
+    public Helper<Boolean> insert(@BeanParam MonEntreprise me, @Context SecurityContext securityContext) {
+        Helper<Boolean> bh = new Helper<>();
         try {
-            if (haveMonEntreprise(securityContext).getMyObject()){
-                 return (TokenHelper.newToken(securityContext));
+            if (haveMonEntreprise(securityContext).getMyObject()) {
+                bh.setMyObject(false);
+                bh.setToken(TokenHelper.newToken(securityContext));
+                return bh;
             }
-                    
+
             MonEntrepriseDAO medao = (MonEntrepriseDAO) DAOSpecif.getInstance(MonEntrepriseDAO.class, securityContext);
             medao.insert(me);
-            return (TokenHelper.newToken(securityContext));
+            bh.setMyObject(true);
+            bh.setToken(TokenHelper.newToken(securityContext));
+            return bh;
         } catch (SQLException ex) {
             Logger.getLogger(ClientController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -104,7 +109,7 @@ public class MonEntrepriseController extends TokenController {
     @Path("/mdp")
     @Produces(MediaType.APPLICATION_JSON)
     @Secured
-    public Helper<String> getMoyenDePaiement( @Context SecurityContext securityContext) {
+    public Helper<String> getMoyenDePaiement(@Context SecurityContext securityContext) {
 
         StringBuilder sb = new StringBuilder();
         for (MoyenDePaiement mdp : MoyenDePaiement.values()) {
