@@ -49,12 +49,14 @@ public class MonEntrepriseController extends TokenController {
 
     @GET
     @Path("/existe")
+    @Secured
     @Produces(MediaType.APPLICATION_JSON)
-    public Helper<Boolean> haveMonEntreprise() {
-        MonEntrepriseDAO medao = (MonEntrepriseDAO) DAOSpecif.getInstance(MonEntrepriseDAO.class, null);
+    public Helper<Boolean> haveMonEntreprise(@Context SecurityContext securityContext) {
+        MonEntrepriseDAO medao = (MonEntrepriseDAO) DAOSpecif.getInstance(MonEntrepriseDAO.class, securityContext);
         try {
             Helper<Boolean> bh = new Helper<>();
             bh.setMyObject(medao.isExiste());
+            bh.setToken(TokenHelper.newToken(securityContext));
             return bh;
         } catch (SQLException ex) {
             Logger.getLogger(MonEntrepriseController.class.getName()).log(Level.SEVERE, null, ex);
@@ -97,7 +99,8 @@ public class MonEntrepriseController extends TokenController {
     @GET
     @Path("/mdp")
     @Produces(MediaType.APPLICATION_JSON)
-    public Helper<String> getMoyenDePaiement() {
+    @Secured
+    public Helper<String> getMoyenDePaiement( @Context SecurityContext securityContext) {
 
         StringBuilder sb = new StringBuilder();
         for (MoyenDePaiement mdp : MoyenDePaiement.values()) {
@@ -107,6 +110,7 @@ public class MonEntrepriseController extends TokenController {
         sb = sb.delete(sb.length() - 1, sb.length());
         Helper<String> hs = new Helper<>();
         hs.setMyObject(sb.toString());
+        hs.setToken(TokenHelper.newToken(securityContext));
         return hs;
     }
 

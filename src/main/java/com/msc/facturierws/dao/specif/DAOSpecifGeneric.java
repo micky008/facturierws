@@ -90,8 +90,8 @@ public abstract class DAOSpecifGeneric<T> extends GenericDaoImpl<T> {
 
     @Override
     protected String convertLogicCustom(Class<?> type, Object o) {
-        if (clazz == MoyenDePaiement.class) {
-            return ((MoyenDePaiement) o).toString();
+        if (type == MoyenDePaiement.class) {
+            return "'"+((MoyenDePaiement) o).toString()+"'";
         }
         return null;
     }

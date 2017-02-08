@@ -6,7 +6,6 @@ import com.msc.facturierws.dao.MonEntrepriseDAO;
 import com.msc.facturierws.dao.specif.DAOSpecif;
 import com.msc.facturierws.entity.Facture;
 import com.msc.facturierws.helper.FreeMarkerHelper;
-import com.msc.facturierws.helper.RecivedPDF;
 import com.msc.facturierws.pdf.PdfCreator;
 import com.msc.rest.tokenrestjersey.Secured;
 import com.msc.rest.tokenrestjersey.Token;
@@ -14,8 +13,6 @@ import com.msc.rest.tokenrestjersey.TokenController;
 import com.msc.rest.tokenrestjersey.TokenHelper;
 import com.msc.rest.tokenrestjersey.helper.Helper;
 import com.msc.rest.tokenrestjersey.helper.ListHelper;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,7 +32,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.IOUtils;
 
 /**
  *
