@@ -71,6 +71,10 @@ public class MonEntrepriseController extends TokenController {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Token insert(@BeanParam MonEntreprise me, @Context SecurityContext securityContext) {
         try {
+            if (haveMonEntreprise(securityContext).getMyObject()){
+                 return (TokenHelper.newToken(securityContext));
+            }
+                    
             MonEntrepriseDAO medao = (MonEntrepriseDAO) DAOSpecif.getInstance(MonEntrepriseDAO.class, securityContext);
             medao.insert(me);
             return (TokenHelper.newToken(securityContext));
