@@ -83,12 +83,12 @@
                         <#assign total = 0>
                         <#list facture.lignes as ligne>
                         <tr class="tdac">
-                            <td>${ligne.designation}</td><td>${ligne.quantite}</td><td>${ligne.puHt}</td><td class="td2br">${ligne.quantite * ligne.puHt}</td>                            
+                            <td>${ligne.designation}</td><td>${ligne.quantite}</td><td>${ligne.puHt}</td><td class="td2br">${(ligne.quantite * ligne.puHt)?string["####.##"]}</td>                            
                             <#assign total += (ligne.quantite * ligne.puHt)>
                         </tr>
                         <tr><td colspan="3">&nbsp;</td><td class="td2br">&nbsp;</td></tr>
                         </#list>
-                        <tr class="tdac"><td colspan="2">&nbsp;</td><td ><h2>TOTAL</h2></td><td class="bd">${total} Euros</td> </tr>
+                        <tr class="tdac"><td colspan="2">&nbsp;</td><td ><h2>TOTAL</h2></td><td class="bd">${total?string["####.##"]} Euros</td> </tr>
                         <tr><td colspan="4">&nbsp;</td></tr>
                         <tr><td colspan="4">&nbsp;</td></tr>
                         <#list moi.getMentionLegalesList() as ml>
